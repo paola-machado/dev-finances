@@ -1,13 +1,14 @@
 /* Global   ============================== */
 :root {
-  --white: #fff;
   --background: #f0f2f5;
   --table-text: #969cb3;
   --dark-blue: #363f5f;
-  --header: #2d4a22;
-  --income: #12a454;
-  --total: #49aa26;
-  --expense: #e92929;
+  --dark-green: #2d4a22;
+  --green: #12a454;
+  --light-green: #49aa26;
+  --highlight-green: #3dd705;
+  --dark-red: #9c0000;
+  --red: #e92929;
 }
 
 * {
@@ -16,14 +17,45 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 93.75%; /* 15px */
+}
+
 body {
   font-family: "Poppins", sans-serif;
   background-color: var(--background);
 }
 
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .container {
   margin: auto;
   width: min(90vw, 800px);
+}
+
+/* Responsive   ============================== */
+@media (min-width: 800px) {
+  html {
+    font-size: 87.5%; /* 14px */
+  }
+
+  #balance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
 }
 
 /* Titles   ============================== */
@@ -38,12 +70,60 @@ h2 {
 header {
   padding: 2rem 0 12rem;
   text-align: center;
-  background: var(--header);
+  background: var(--dark-green);
 }
 
-#logo {
-  color: var(--white);
-  font-weight: 100;
+/* Links and Buttons  ============================== */
+a {
+  color: var(--light-green);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--highlight-green);
+}
+
+button {
+  padding: 0;
+  width: 100%;
+  height: 50px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 0.25rem;
+
+  color: white;
+  background: var(--light-green);
+}
+
+button:hover {
+  background: var(--dark-green);
+}
+
+.button.new {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+}
+
+.button.cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 50px;
+
+  border: 2px var(--red) solid;
+  border-radius: 0.25rem;
+
+  color:  var(--red);
+  opacity: 0.6;
+}
+
+.button.cancel:hover {
+  border: 2px var(--dark-red) solid;
+  color: white;
+  background-color: var(--dark-red);
 }
 
 /* Balance  ============================== */
@@ -52,7 +132,7 @@ header {
 }
 
 #balance h2 {
-  color: var(--white);
+  color: white;
   margin-top: 0;
 }
 
@@ -62,10 +142,14 @@ header {
   margin-bottom: 2rem;
   border-radius: 0.25rem;
   color: var(--dark-blue);
-  background: var(--white);
+  background: white;
 }
 
 .card h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   font-weight: normal;
   font-size: 1rem;
 }
@@ -77,11 +161,18 @@ header {
 }
 
 .card.total {
-  background: var(--total);
-  color: var(--white);
+  background: var(--light-green);
+  color: white;
 }
 
 /* Table   ============================== */
+#transaction {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
 #data-table {
   width: 100%;
   border-spacing: 0 0.5rem;
@@ -102,7 +193,7 @@ table thead th {
   padding: 1rem 2rem;
   text-align: left;
   font-weight: normal;
-  background: var(--white);
+  background: white;
 }
 
 table tbody tr {
@@ -115,7 +206,7 @@ table tbody tr:hover {
 
 table tbody td {
   padding: 1rem 2rem;
-  background: var(--white);
+  background: white;
 }
 
 td.description {
@@ -123,16 +214,87 @@ td.description {
 }
 
 td.income {
-  color: var(--income);
+  color: var(--green);
 }
 
 td.expense {
-  color: var(--expense);
+  color: var(--red);
+}
+
+/* Modal   ============================== */
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  position: relative;
+  z-index: 1;
+
+  padding: 2.4rem;
+  background: var(--background);
+}
+
+/* Form   ============================== */
+#form {
+  max-width: 500px;
+}
+
+#form h2 {
+  margin-top: 0;
+}
+
+input {
+  font-family: inherit;
+  padding: 0.8rem;
+  width: 100%;
+  border: none;
+  border-radius: 0.3rem;
+  outline-color: var(--green);
+}
+
+.input-group {
+  margin-top: 0.8rem;
+}
+
+.input-group small {
+  padding: 0.2rem;
+  opacity: 0.4;
+}
+
+.input-group.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-group.actions .button,
+.input-group.actions button {
+  font-family: inherit;
+  width: 48%;
+  margin-top: 0.8rem;
 }
 
 /* Footer   ============================== */
 footer {
-  padding: 4rem 0 2rem;
+  padding: 2rem 0 2rem;
   text-align: center;
   color: var(--dark-blue);
   opacity: 0.6;
