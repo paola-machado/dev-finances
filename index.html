@@ -1,7 +1,6 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -9,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,600;0,700;1,100;1,400;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <script src="./script.js" defer></script>
     <title>dev.finance$</title>
   </head>
   <body>
@@ -24,28 +24,28 @@
             <span>Entradas</span>
             <img src="./assets/income.svg" alt="Ícone das entradas" />
           </h3>
-          <p>R$ 5.000,00</p>
+          <p id="income"></p>
         </div>
         <div class="card">
           <h3>
             <span>Saídas</span>
             <img src="./assets/expense.svg" alt="Ícone das saídas" />
           </h3>
-          <p>R$ 2.000,00</p>
+          <p id="expense"></p>
         </div>
         <div class="card total">
           <h3>
             <span>Total</span>
             <img src="./assets/total.svg" alt="Ícone do total" />
           </h3>
-          <p>R$ 3.000,00</p>
+          <p id="total"></p>
         </div>
       </section>
       <section id="transaction">
         <h2 class="sr-only">Transações</h2>
-        <a href="#" class="button new" onClick="Modal.open()"
-          >+ Nova Transação</a
-        >
+        <a href="#" class="button new" onClick="Modal.open()">
+          + Nova Transação
+        </a>
         <table id="data-table">
           <thead>
             <tr>
@@ -55,34 +55,14 @@
               <th></th>
             </tr>
           </thead>
-
-          <tbody>
-            <tr>
-              <td class="description">Luz</td>
-              <td class="expense">- R$ 500,00</td>
-              <td class="date">23/10/2021</td>
-              <td><img src="./assets/minus.svg" alt="Remover transação" /></td>
-            </tr>
-            <tr>
-              <td class="description">Criação de Website</td>
-              <td class="income">R$ 5.000,00</td>
-              <td class="date">20/10/2021</td>
-              <td><img src="./assets/minus.svg" alt="Remover transação" /></td>
-            </tr>
-            <tr>
-              <td class="description">Internet</td>
-              <td class="expense">- R$ 200,00</td>
-              <td class="date">25/10/2021</td>
-              <td><img src="./assets/minus.svg" alt="Remover transação" /></td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
     </main>
 
-    <div class="modal-overlay active">
+    <div class="modal-overlay">
       <div class="modal">
-        <div id="form">
+        <div id="form" onSubmit="Form.submit(event)">
           <h2>Nova Transação</h2>
           <form action="">
             <div class="input-group">
@@ -105,7 +85,7 @@
                 placeholder="0,00"
               />
               <small class="help">
-                Use o sinal - (negativo) para despesas e , (vírgula) para casas
+                Use o sinal - (negativo) para despesas e . (ponto) para casas
                 decimais
               </small>
             </div>
@@ -116,9 +96,9 @@
             </div>
 
             <div class="input-group actions">
-              <a href="#" class="button cancel" onClick="Modal.close();"
-                >Cancelar</a
-              >
+              <a href="#" class="button cancel" onClick="Modal.close()">
+                Cancelar
+              </a>
               <button>Salvar</button>
             </div>
           </form>
@@ -127,15 +107,5 @@
     </div>
 
     <footer><p>dev.finance$</p></footer>
-    <script>
-      const Modal = {
-        open() {
-          document.querySelector(".modal-overlay").classList.add("active");
-        },
-        close() {
-          document.querySelector(".modal-overlay").classList.remove("active");
-        },
-      };
-    </script>
   </body>
 </html>
